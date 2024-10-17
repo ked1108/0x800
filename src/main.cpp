@@ -19,18 +19,29 @@ std::array<Color, 12> colors = {
 	GetColor(0x041526)   // Abyssal Blue
 };
 
-void HandleInput(Game* g) {
-	if(IsKeyReleased(KEY_W) || IsKeyReleased(KEY_UP)) 		
-		{g->moveUp(); g->addRandomTile();}
+bool HandleInput(Game* g) {
+	bool pressed = false;
+	if(IsKeyReleased(KEY_W) || IsKeyReleased(KEY_UP)){
+		g->moveUp();
+		pressed = true;
+	}
 
-	else if(IsKeyReleased(KEY_A) || IsKeyReleased(KEY_LEFT)) 	
-		{g->moveLeft();g->addRandomTile();}
+	else if(IsKeyReleased(KEY_A) || IsKeyReleased(KEY_LEFT)) {
+		g->moveLeft();
+		pressed = true;
+	}
 
-	else if(IsKeyReleased(KEY_S) || IsKeyReleased(KEY_DOWN)) 	
-		{g->moveDown();g->addRandomTile();}
+	else if(IsKeyReleased(KEY_S) || IsKeyReleased(KEY_DOWN)) {
+		g->moveDown();
+		pressed = true;
+	}
 
-	else if(IsKeyReleased(KEY_D) || IsKeyReleased(KEY_RIGHT)) 	
-		{g->moveRight();g->addRandomTile();}
+	else if(IsKeyReleased(KEY_D) || IsKeyReleased(KEY_RIGHT)) {
+		g->moveRight();
+		pressed = true;
+	}
+
+	return pressed;
 }
 
 void Render(Game* g) {
@@ -60,16 +71,15 @@ void Render(Game* g) {
 int main(void) {
 	Game g = Game();
 	std::string debug = "Test"+std::to_string(g.getGridCols());
+
 	TraceLog(LOG_INFO, debug.c_str());
 	InitWindow(820, 1000, "0x800");
 	SetTargetFPS(60);
 
 	while(!WindowShouldClose()){
-		if(!g.isGameOver()) {
-			Render(&g);
-			HandleInput(&g);
-		} else {
-			Render(&g);
+		Render(&g);
+		if(HandleInput(&g) && !g.isGameOver()){
+			g.addRandomTile();
 		}
 	}
 

@@ -144,7 +144,7 @@ std::array<int, 4> Game::combineArraysPre(const std::array<int, 4>& array) {
 
 	for(size_t i = 0; i < non_zero.size() - 1; i++){
 		if(non_zero[i] == non_zero[i+1]) {
-			non_zero[i] *= 2;
+			non_zero[i]++;
 			non_zero[i+1] = 0;
 		}
 	}
@@ -156,7 +156,7 @@ std::array<int, 4> Game::combineArraysPre(const std::array<int, 4>& array) {
 
 	std::array<int, 4> result = {0, 0, 0, 0};
 	for(size_t i = 4 - new_non_zero.size(); i < 4; i++) {
-			result[i] = new_non_zero[i - 4 - new_non_zero.size()];
+			result[i] = new_non_zero[i - (4 - new_non_zero.size())];
 	}
 
 	return result;
@@ -175,7 +175,7 @@ std::array<int, 4> Game::combineArraysPost(const std::array<int, 4>& array) {
 
 	for(size_t i = 0; i < non_zero.size() - 1; i++){
 		if(non_zero[i] == non_zero[i+1]) {
-			non_zero[i] *= 2;
+			non_zero[i]++;
 			non_zero[i+1] = 0;
 		}
 	}
